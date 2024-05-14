@@ -7,9 +7,14 @@ on:
       - main
 
 jobs:
-  productionPromotion:
+  one:
     runs-on: ubuntu-latest
     steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
       - uses: actions/checkout@v4
         with:
           ref: v0.x
@@ -17,7 +22,15 @@ jobs:
         run: |
           git fetch origin main:main
           git reset --hard main
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
-          branch: production-promotion
+          commit-message: ${{ github.event.head_commit.message }}
+          title: ${{ github.event.head_commit.message }}
+          committer: "${{ github.event.head_commit.committer.name }} <${{ github.event.head_commit.committer.email }}>"
+          author: "${{ github.event.head_commit.author.name }} <${{ github.event.head_commit.author.email }}>"
+          base: v0.x
+          labels: automated-pr
+          branch: v0.x-promotion
+          delete-branch: true
