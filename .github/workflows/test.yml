@@ -22,9 +22,6 @@ on:
         default: '_nightly'
 
   pull_request:
-  push:
-    branches:
-      - main
 
 jobs:
 
