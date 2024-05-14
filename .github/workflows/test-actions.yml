@@ -23,4 +23,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HEAD_BRANCH: main
           BASE_BRANCH: v0.x
-
